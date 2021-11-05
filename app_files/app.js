@@ -52,14 +52,14 @@ let browserPage = {
 function askUser(){
   qoa.prompt([{
     type: 'input',
-    query: 'De quel site souhaitez vous obtenir un rendu ? \n >',
+    query: 'Which site do you want a rendering of ? \n >',
     handle: 'url',
     symbol: '>',
   }]).then((rs) => {
     if(!rs.url.startsWith('http')) rs.url = `http://${rs.url}`
     qoa.prompt([{
       type: 'input',
-      query: 'Quel type de fichier voulez vos obtenir ? (PNG, PDF, HTML) \n >',
+      query: 'Which file type do you want in output ? (PNG, PDF, HTML) \n >',
       handle: 'renderType',
       symbol: '>',
     }]).then(async (res) => {
@@ -71,27 +71,27 @@ function askUser(){
         }
         if(res.renderType.toLowerCase() == "png"){
           Object.assign(props, await qoa.input({
-            query: "Largeur de l'image (en pixels) : \n >",
+            query: "Image width (pixels) : \n >",
             handle: 'width'}),
 
             await qoa.input({
-              query: "Hauteur de l'image (en pixels) : \n >",
+              query: "Image height (pixels) : \n >",
               handle: 'height'
             })
           );
         } else if(res.renderType.toLowerCase() == "pdf"){
           Object.assign(props, await qoa.input({
-            query: "Format du PDF (a1, a2,..., a6):  \n >",
+            query: "PDF Format (a1, a2,..., a6):  \n >",
             handle: 'format'
           }))
         }
         props.height = parseInt(props.height); props.width = parseInt(props.width);
         browserPage[res.renderType.toLowerCase()](rs.url, props).then(async (path) => {
-          console.log(colors.green(`Fichier sauvegardé avec succès !`), colors.cyan(`\nChemin d'accès : ${path}`))
+          console.log(colors.green(`File successfully saved !`), colors.cyan(`\n Path : ${path}`))
           askUser()
         })    
       } else {
-        console.log(colors.red('Erreur : Ce type de fichier ne peut pas être utilisé en tant que méthode de rendu'))
+        console.log(colors.red('Error : This file type cannot be used as a rendering method'))
         askUser()        
       }
     });
