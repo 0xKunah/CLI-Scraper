@@ -1,0 +1,26 @@
+{
+  "name": "cli-test",
+  "version": "1.1.0",
+  "description": "",
+  "main": "app/app.js",
+  "scripts": {
+    "start": "nodemon"
+  },
+  "author": "Kunah",
+  "contributors": [
+    {
+      "name": "GenoWeb",
+      "url": "https://genoweb.fr"
+    }
+  ],
+  "license": "ISC",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "fs": "0.0.1-security",
+    "html-beautify": "^1.0.4",
+    "nodemon": "*",
+    "open": "^8.4.0",
+    "puppeteer": "^10.1.0",
+    "qoa": "^0.2.0"
+  }
+}
