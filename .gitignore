@@ -1,1 +1,4 @@
-/app_files/node_modules
+/node_modules
+/html/**/**
+/pdf/**/**
+/png/**/**

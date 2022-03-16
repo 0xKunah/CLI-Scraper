@@ -2,6 +2,7 @@ const qoa = require('qoa');
 const colors = require('colors');
 const htmlFormatter = require('html-beautify')
 const fs = require('fs')
+const open = require('open')
  
 const puppeteer = require('puppeteer');
 let browserPage = {
@@ -12,20 +13,21 @@ let browserPage = {
     page.on('response',async response => {
       if(response.request().resourceType() === 'stylesheet') {
         let css = await response.text() 
-        if(!fs.existsSync(`..${path}`)){
-          fs.mkdir(`..${path}`, (err) => {
+        if(!fs.existsSync(`.${path}`)){
+          fs.mkdir(`.${path}`, (err) => {
             if(err) return console.log(err)
           })
         }
-        fs.writeFile(`..${path}/style.css`, css, (err) => {
+        fs.writeFile(`.${path}/style.css`, css, (err) => {
           if(err) console.log(err)
         })
       }
     });
     await page.goto(src)
-    fs.writeFile(`..${path}/index.html`, htmlFormatter(await page.evaluate(() => document.documentElement.outerHTML)), (err) => {
+    fs.writeFile(`.${path}/index.html`, htmlFormatter(await page.evaluate(() => document.documentElement.outerHTML)), (err) => {
       if(err) console.log(err)
     })
+    await open(`.${path}/index.html`)
     return `CLI-Scraper${path}`
   },
   png : async (src, props) => {
@@ -34,7 +36,8 @@ let browserPage = {
     const page = await browser.newPage()
     await page.setViewport(Object.assign({deviceScaleFactor : 1}, props))
     await page.goto(src);
-    await page.screenshot({ path: `..${path}` })
+    await page.screenshot({ path: `.${path}` })
+    await open(`.${path}`)
     return `CLI-Scraper${path}`
   },
 
@@ -44,7 +47,8 @@ let browserPage = {
     const browser = await puppeteer.launch();
     const page = await browser.newPage()
     await page.goto(src)  
-    await page.pdf({ path: `..${path}`, format: format })
+    await page.pdf({ path: `.${path}`, format: format })
+    await open(`.${path}`)
     return `CLI-Scraper${path}`
   }
 }
